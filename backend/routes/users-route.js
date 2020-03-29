@@ -7,7 +7,7 @@ router.route('/').get((req, res) => {
     users.index(req, res);
 });
 
-router.route('/create').post((req, res) => {
+router.route('/register').post((req, res) => {
     users.create(req, res);
 });
 
