@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const User = require('../models/user-model')
 const Bcrypt = require('bcryptjs')
+const validate = require('../models/user-validations');
+const assert = require('assert')
+
 
 
 
@@ -18,35 +21,33 @@ module.exports = {
     },
 
     create: (req, res) => {
-        const encrypted = Bcrypt.hashSync(req.body.password, 10)
-        // const confirmPassword = Bcrypt.compare(encrypted, req.body.confirmPassword)
+        const encrypt = Bcrypt.hashSync(req.body.password, 10)
         const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             userName: req.body.userName,
-            password: encrypted,
+            password: encrypt
         });
 
-        const confirmPassword = Bcrypt.compare(req.body.confirmPassword, newUser.password)
-        console.log(newUser.password)
-        console.log(confirmPassword)
-        if (newUser.password == confirmPassword) {
+        newUser.save( (err, data) => {
+            if (err) {
 
-            newUser.save( (err) => {
-                if(err) {
-                    console.log('somthing went wrong in create');
-                    // res.redirect('/users')
-                    res.json(err)
-                } else {
-                    console.log('successfully added user!');
-                    // res.redirect('/users')
-                    res.json(err)
-                };
-            });
+                let errorMessages = [];
 
-        } else {
-            res.json("Passwords do not match!")
-        }
+                for(var key in err.errors){
+                    errorMessages.push(err.errors[key].message);
+                }
+
+                console.log('somthing went wrong in create');
+                res.json(errorMessages)
+                
+
+            } else {
+                console.log('successfully added user!');
+                // res.redirect('/users')
+                res.json("User Successfully added!", data)
+            };
+        });
     }
 }
