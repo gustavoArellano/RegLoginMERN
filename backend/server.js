@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
-require('./config/mongoose')
+require('./config/mongoose', { useUnifiedTopology: true })
 
 const cors = require('cors');
 app.use(cors());
@@ -15,3 +15,5 @@ const port = 8000;
 app.listen(port, () => {
     console.log("We are live on " + port + ", from the backend!")
 })
+
+// app.listen(8000, '192.168.86.40');

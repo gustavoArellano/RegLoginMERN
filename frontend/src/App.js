@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {}
+  }
+
+  render() {
+    return (
+      <div className="App">
+
+        <h1 className="app-title">Welcome to Login & Registration on MERN!</h1>
+
+        <div className="login-container">
+
+          <h2><u>Login</u></h2> 
+          
+          <form>
+
+            <label>Username:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Password:</label>
+            <input className="form-control" type="text" required />
+
+          </form>
+
+
+        </div>
+        
+        <div className="register-container">
+
+          <h2><u>Register</u></h2>
+
+          <form>
+
+            <label>First Name:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Last Name:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Email:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Username:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Password:</label>
+            <input className="form-control" type="text" required />
+
+            <label>Confirm Password:</label>
+            <input className="form-control" type="text" required />
+
+          </form>
+
+        </div>
+
+
+      </div>
+    )
+  }
 }
 
 export default App;

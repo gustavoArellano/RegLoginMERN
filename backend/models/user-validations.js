@@ -1,30 +1,24 @@
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const User = require('../models/user-model')
+const userController = require('../controllers/users-controller')
+
+// let errorMessages = []
+
 module.exports = {
-    isAlphaNumericOnly : function (input)
-    {
-        var letterNumberRegex = /^[0-9a-zA-Z]+$/;
-        if(input.match(letterNumberRegex))
-        {
-            return true;
+
+        emailExits: (req) => {
+            console.log("iam here*********")
+            var find = User.findOne({ email: req.body.email});
+            if ( find != null) {
+                userController.errorMessages.push("Email exits!")
+            }
+        },
+
+        passwordMatching: (res, req) => {
+            if ( confirmPassword != newUser.password ) {
+                errorMessages.push("Passwords do not match!")
+            } 
         }
-        return false;
-    },
-    isLongEnough : function (input){
-        if(input.length >= 6){
-            return true;
-        }
-        return false;
-    },
-    isGoodPassword : function (input)
-    {
-        // at least one number, one lowercase and one uppercase letter
-        // at least six characters
-        var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        return regex.test(input);
-    }, 
-    
-    isSafe: function (input)
-    {
-        var regex = /([$])/;
-        return !regex.test(input);
-    }
+
 }
