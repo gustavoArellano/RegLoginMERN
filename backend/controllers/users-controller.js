@@ -20,6 +20,12 @@ module.exports = {
     },
 
     create: (req, res) => {
+        var errorMessages = []
+        let confirmPassword = req.body.confirmPassword
+
+        let firstNameV = req.body.firstName;
+
+
 
         const newUser = new User({
             firstName: req.body.firstName,
@@ -28,27 +34,31 @@ module.exports = {
             userName: req.body.userName,
             password: req.body.password,
         });
-        
+
+        let errorMessages = []
+        let confirmPassword = req.body.confirmPassword
+
         
 
+
+
+
+
+
         newUser.save( (err) => {
-            let errorMessages = []
-            let confirmPassword = req.body.confirmPassword
             if (err) {
 
                 for (var key in err.errors) {
                     errorMessages.push(err.errors[key].message);
                 }
                 
-                validate.emailExits
-
-                var findExistingEmail = User.findOne({ email: newUser.email});
-                if ( findExistingEmail != null) {
+                var findExistingEmail = User.findOne({email: newUser.email});
+                if (findExistingEmail != true) {
                     errorMessages.push("An Account is already associated with this email!")
                 }
 
-                var findExistingUserName = User.findOne({ username: newUser.userName});
-                if ( findExistingUserName != null) {
+                let findExistingUserName = User.findOne({ username: newUser.userName});
+                if (findExistingUserName != null) {
                     errorMessages.push("Username is already taken!")
                 }
                 
@@ -63,7 +73,6 @@ module.exports = {
             } else {
 
                 if ( confirmPassword != newUser.password ) {
-
                     errorMessages.push("Passwords do not match!")
                     res.json(validate.errorMessages)
 

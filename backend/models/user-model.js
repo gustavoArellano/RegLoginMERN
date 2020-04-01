@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
-const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
 
 const UserSchema = new Schema ({
@@ -22,7 +21,7 @@ const UserSchema = new Schema ({
     email: { 
         type: String, 
         required: [true, "Email is required!"],
-        unique: [true, "Account with this email already exists!"],
+        unique: true,
         match: [/\S+@\S+\.\S+/, 'Invalid email format!'],
     },
 
