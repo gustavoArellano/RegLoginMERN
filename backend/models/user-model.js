@@ -6,23 +6,18 @@ const UserSchema = new Schema ({
 
     firstName: { 
         type: String, 
-        required: [true, "First name is required!"],
-        minlength: [2, "First name must contain at least 2 letters!"],
         trim: true
     },
 
     lastName: { 
         type: String, 
-        required: [true, "Last name is required!"],
-        minlength: [2, "Last name must contain at least 2 letters!"],
         trim: true
     },
 
     email: { 
         type: String, 
-        required: [true, "Email is required!"],
+        trim: true,
         unique: true,
-        match: [/\S+@\S+\.\S+/, 'Invalid email format!'],
     },
 
     userName: { 

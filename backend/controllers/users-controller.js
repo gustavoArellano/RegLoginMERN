@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const User = require('../models/user-model');
+const emailRegex = require('email-regex');
 const Bcrypt = require('bcryptjs');
-const validate = require('../models/user-validations');
 
 
 
@@ -20,26 +20,62 @@ module.exports = {
     },
 
     create: (req, res) => {
-        var errorMessages = []
-        let confirmPassword = req.body.confirmPassword
 
-        let firstNameV = req.body.firstName;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const email = req.body.email;
+        const userName = req.body.userName;
+        const password = req.body.password;
+        const confirmPassword = req.body.confirmPassword
 
+        let errorMessages = [];
+        
+        //FirstNameValidation
+        if (firstName.length < 1) {
 
+            errorMessages.push("First name is required!");
 
-        const newUser = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            userName: req.body.userName,
-            password: req.body.password,
+        } else if (firstName.length < 2) {
+
+            errorMessages.push("First name must contain at least 2 letters!");
+        } 
+
+        //LastNameValidation
+        if (lastName.length < 1) {
+
+            errorMessages.push("Last name is required!");
+
+        } else if (lastName.length < 2) {
+
+            errorMessages.push("Last name must contain at least 2 letters!");
+        } 
+
+        //EmailValidation
+        if (email.length < 1) {
+
+            errorMessages.push("Email is required!");
+
+        } else if (!emailRegex({exact: true}).test(email)) {
+
+            errorMessages.push("Invalid email format!");
+        }
+
+        User.findOne({email: email}, (data, results) => {
+            var emailResults = ""
+            console.log("i am here")
+            if (results) {
+                console.log(results.email)
+                emailResults = "An account is already associated with this email!"
+            } 
+            console.log(emailResults)
+            errorMessages.push(emailResults)
         });
 
-        let errorMessages = []
-        let confirmPassword = req.body.confirmPassword
+        console.log(errorMessages)
 
-        
+        return res.json(errorMessages)
 
+        const newUser = new User({firstName, lastName, email, userName, password});
 
 
 
@@ -48,43 +84,43 @@ module.exports = {
         newUser.save( (err) => {
             if (err) {
 
-                for (var key in err.errors) {
-                    errorMessages.push(err.errors[key].message);
-                }
+                // for (var key in err.errors) {
+                //     errorMessages.push(err.errors[key].message);
+                // }
                 
-                var findExistingEmail = User.findOne({email: newUser.email});
-                if (findExistingEmail != true) {
-                    errorMessages.push("An Account is already associated with this email!")
-                }
+                // var findExistingEmail = User.findOne({email: newUser.email});
+                // if (findExistingEmail != true) {
+                //     errorMessages.push("An Account is already associated with this email!")
+                // }
 
-                let findExistingUserName = User.findOne({ username: newUser.userName});
-                if (findExistingUserName != null) {
-                    errorMessages.push("Username is already taken!")
-                }
+                // let findExistingUserName = User.findOne({ username: newUser.userName});
+                // if (findExistingUserName != null) {
+                //     errorMessages.push("Username is already taken!")
+                // }
                 
-                if ( confirmPassword != newUser.password ) {
-                    errorMessages.push("Passwords do not match!")
-                } 
+                // if ( confirmPassword != newUser.password ) {
+                //     errorMessages.push("Passwords do not match!")
+                // } 
 
                 console.log('something went wrong in create');
-                res.json(errorMessages)
+                // res.json(errorMessages)
                 return;
 
             } else {
 
-                if ( confirmPassword != newUser.password ) {
-                    errorMessages.push("Passwords do not match!")
-                    res.json(validate.errorMessages)
+                // if ( confirmPassword != newUser.password ) {
+                //     errorMessages.push("Passwords do not match!")
+                //     res.json(validate.errorMessages)
 
-                } else {
+                // } else {
 
-                    newUser.password = Bcrypt.hashSync(newUser.password, 10);
-                    console.log(newUser.password, "This PW has been encrypted!")
-                    console.log('successfully added user!');
+                //     newUser.password = Bcrypt.hashSync(newUser.password, 10);
+                //     console.log(newUser.password, "This PW has been encrypted!")
+                //     console.log('successfully added user!');
                     res.json("User Successfully added!")
                     return
                 }
-            };
+            // };
         });
         
     }
