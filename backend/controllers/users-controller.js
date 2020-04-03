@@ -59,19 +59,18 @@ module.exports = {
 
             errorMessages.push("Invalid email format!");
         }
+        var emailFound = 0
+        User.find({email: email}, () => {return emailFound = 3})
+        console.log(emailFound)
+        // console.log(test)
+        // console.log(test.getQuery().email)
+        // if ((test.getQuery()).length >= 1) {
+        //     errorMessages.push("An account is already associated with this email!")
+        // }
 
-        User.findOne({email: email}, (data, results) => {
-            var emailResults = ""
-            console.log("i am here")
-            if (results) {
-                console.log(results.email)
-                emailResults = "An account is already associated with this email!"
-            } 
-            console.log(emailResults)
-            errorMessages.push(emailResults)
-        });
+        
 
-        console.log(errorMessages)
+        // console.log(errorMessages)
 
         return res.json(errorMessages)
 
