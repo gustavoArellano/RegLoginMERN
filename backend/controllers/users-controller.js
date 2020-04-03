@@ -21,12 +21,12 @@ module.exports = {
 
     create: (req, res) => {
 
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
-        const email = req.body.email;
-        const userName = req.body.userName;
-        const password = req.body.password;
-        const confirmPassword = req.body.confirmPassword
+        let firstName = req.body.firstName;
+        let lastName = req.body.lastName;
+        let email = req.body.email;
+        let userName = req.body.userName;
+        let password = req.body.password;
+        let confirmPassword = req.body.confirmPassword
 
         var errorMessages = [];
         
@@ -115,17 +115,16 @@ module.exports = {
 
         } else if (password != confirmPassword) {
             errorMessages.push("Password's do not match");
+        } else {
+            password = Bcrypt.hashSync(req.body.password, 10);
         }
         
         const newUser = new User({firstName, lastName, email, userName, password});
-
         newUser.save( (errorMessages) => {
             if (errorMessages) {
                 console.log('something went wrong in create');
                 res.json(errorMessages)
             } else {
-
-                    newUser.password = Bcrypt.hashSync(newUser.password, 10);
                     console.log(newUser.password, "This PW has been encrypted!")
                     console.log('successfully added user!');
                     res.json("User Successfully added!")
