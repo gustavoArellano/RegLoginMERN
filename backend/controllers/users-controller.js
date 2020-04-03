@@ -28,7 +28,7 @@ module.exports = {
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword
 
-        let errorMessages = [];
+        var errorMessages = [];
         
         //FirstNameValidation
         if (firstName.length < 1) {
@@ -59,67 +59,78 @@ module.exports = {
 
             errorMessages.push("Invalid email format!");
         }
-        var emailFound = 0
-        User.find({email: email}, () => {return emailFound = 3})
-        console.log(emailFound)
-        // console.log(test)
-        // console.log(test.getQuery().email)
-        // if ((test.getQuery()).length >= 1) {
-        //     errorMessages.push("An account is already associated with this email!")
-        // }
 
+        User.findOne({email: email})
+        .then(user => {
+            if(!user) {
+                console.log("user does not exist")
+            } else {
+                // res.json({ error: "An Account is already associated with this email!"})
+                console.log("An Account is already associated with this email!")
+
+            }
+            
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+
+        //USERNAME VALIDATION
+        var userNameRegEx = /^[a-zA-Z0-9]+$/
+        if (userName.length < 1) {
+            errorMessages.push("Username is required!");
+
+        } else if (userName.length < 4) {
+            errorMessages.push("Username must contain at least 4 characthers minimum!");
+
+        } else if (!userNameRegEx.test(userName)) {
+            errorMessages.push("Invalid username format!")
+
+        }
+
+        User.findOne({userName: userName})
+        .then(user => {
+            if(!user) {
+                console.log("user does not exist")
+            } else {
+                errorMessages.push(user)
+                // res.json({ error: "Username already exists"})
+                console.log("That username is already in use!")
+            }
+        })
+        .catch(err => {
+            res.send('error: ' + err)
+        })
+
+        //PASSWORD VALIDATION
+        var pwRegEx = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
+        if (password.length < 1) {
+            errorMessages.push("Password is required!");
+
+        } else if (password.length < 6) {
+            errorMessages.push("Password must contain at least 6 characthers minimum!");
+
+        } else if (!pwRegEx.test(password)) {
+            errorMessages.push("Password must contain at least one number, one lowercase, and one uppercase letter!")
+
+        } else if (password != confirmPassword) {
+            errorMessages.push("Password's do not match");
+        }
         
-
-        // console.log(errorMessages)
-
-        return res.json(errorMessages)
-
         const newUser = new User({firstName, lastName, email, userName, password});
 
-
-
-
-
-        newUser.save( (err) => {
-            if (err) {
-
-                // for (var key in err.errors) {
-                //     errorMessages.push(err.errors[key].message);
-                // }
-                
-                // var findExistingEmail = User.findOne({email: newUser.email});
-                // if (findExistingEmail != true) {
-                //     errorMessages.push("An Account is already associated with this email!")
-                // }
-
-                // let findExistingUserName = User.findOne({ username: newUser.userName});
-                // if (findExistingUserName != null) {
-                //     errorMessages.push("Username is already taken!")
-                // }
-                
-                // if ( confirmPassword != newUser.password ) {
-                //     errorMessages.push("Passwords do not match!")
-                // } 
-
+        newUser.save( (errorMessages) => {
+            if (errorMessages) {
                 console.log('something went wrong in create');
-                // res.json(errorMessages)
-                return;
-
+                res.json(errorMessages)
             } else {
 
-                // if ( confirmPassword != newUser.password ) {
-                //     errorMessages.push("Passwords do not match!")
-                //     res.json(validate.errorMessages)
-
-                // } else {
-
-                //     newUser.password = Bcrypt.hashSync(newUser.password, 10);
-                //     console.log(newUser.password, "This PW has been encrypted!")
-                //     console.log('successfully added user!');
+                    newUser.password = Bcrypt.hashSync(newUser.password, 10);
+                    console.log(newUser.password, "This PW has been encrypted!")
+                    console.log('successfully added user!');
                     res.json("User Successfully added!")
                     return
-                }
-            // };
+            };
         });
         
     }
