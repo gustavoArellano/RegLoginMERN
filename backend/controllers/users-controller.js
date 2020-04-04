@@ -61,19 +61,19 @@ module.exports = {
         }
 
         User.findOne({email: email})
-        .then(user => {
-            if(!user) {
-                console.log("user does not exist")
-            } else {
-                // res.json({ error: "An Account is already associated with this email!"})
-                console.log("An Account is already associated with this email!")
+            .then(user => {
+                if(!user) {
+                    console.log("user does not exist")
+                } else {
+                    // res.json({ error: "An Account is already associated with this email!"})
+                    console.log("An Account is already associated with this email!")
 
-            }
-            
-        })
-        .catch(err => {
-            res.send('error: ' + err)
-        })
+                }
+                
+            })
+            .catch(err => {
+                res.send('error: ' + err)
+            })
 
         //USERNAME VALIDATION
         var userNameRegEx = /^[a-zA-Z0-9]+$/
@@ -86,6 +86,12 @@ module.exports = {
         } else if (!userNameRegEx.test(userName)) {
             errorMessages.push("Invalid username format!")
 
+        }
+
+        // RETURN TO MAIN PAGE IF ERRORS ARE TRUE
+        if(errorMessages.count >= 1) {
+            console.log("Theres an error!")
+            res.redirect('/')
         }
 
         User.findOne({userName: userName})
@@ -125,8 +131,8 @@ module.exports = {
                 console.log('something went wrong in create');
                 res.json(errorMessages)
             } else {
-                    console.log(newUser.password, "This PW has been encrypted!")
                     console.log('successfully added user!');
+                    res.redirect('/Home')
                     res.json("User Successfully added!")
                     return
             };

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from './components/Home'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
 
 class App extends Component {
   constructor() {
@@ -10,60 +13,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <Router>
 
-        <h1 className="app-title">Welcome to Login & Registration on MERN!</h1>
+        <div className="App">
 
-        <div className="login-container">
+          <h1 className="app-title">Welcome to Login & Registration on MERN!</h1>
 
-          <h2><u>Login</u></h2> 
+          <Login />
+
+          <Register />    
           
-          <form >
-
-            <label>Username:</label>
-            <input className="form-control" type="text" required />
-
-            <label>Password:</label>
-            <input className="form-control" type="text" required />
-
-            <button>Submit</button>
-          </form>
-
-
-        </div>
-        
-        <div className="register-container">
-
-          <h2><u>Register</u></h2>
-
-          <form>
-
-            <label>First Name:</label>
-            <input className="form-control" type="text" required />
-
-            <label>Last Name:</label>
-            <input className="form-control" type="text" required />
-
-            <label>Email:</label>
-            <input className="form-control" type="text" required />
-
-            <label>Username:</label>
-            <input className="form-control" type="text" required />
-
-            <label>Password:</label>
-            <input className="form-control" type="password" required />
-
-            <label>Confirm Password:</label>
-            <input className="form-control" type="password" required />
-
-            <button>Submit</button>
-
-          </form>
+          <Router path="/" exact component = {App} />
+          <Route path="/Home" exact component = {Home} />
 
         </div>
 
-
-      </div>
+      </Router>
     )
   }
 }
