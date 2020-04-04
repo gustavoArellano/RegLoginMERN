@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Home from './components/Home'
 
 class App extends Component {
   constructor() {
@@ -17,7 +18,7 @@ class App extends Component {
 
           <h2><u>Login</u></h2> 
           
-          <form>
+          <form >
 
             <label>Username:</label>
             <input className="form-control" type="text" required />
@@ -25,6 +26,7 @@ class App extends Component {
             <label>Password:</label>
             <input className="form-control" type="text" required />
 
+            <button>Submit</button>
           </form>
 
 
@@ -49,10 +51,12 @@ class App extends Component {
             <input className="form-control" type="text" required />
 
             <label>Password:</label>
-            <input className="form-control" type="text" required />
+            <input className="form-control" type="password" required />
 
             <label>Confirm Password:</label>
-            <input className="form-control" type="text" required />
+            <input className="form-control" type="password" required />
+
+            <button>Submit</button>
 
           </form>
 

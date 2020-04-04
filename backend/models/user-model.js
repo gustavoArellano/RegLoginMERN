@@ -22,6 +22,7 @@ const UserSchema = new Schema ({
 
     userName: { 
         type: String, 
+        trim: true,
     },
 
     password: { 

@@ -94,8 +94,8 @@ module.exports = {
                 console.log("user does not exist")
             } else {
                 errorMessages.push(user)
-                // res.json({ error: "Username already exists"})
                 console.log("That username is already in use!")
+                res.json({ error: "Username already exists"})
             }
         })
         .catch(err => {
@@ -132,5 +132,25 @@ module.exports = {
             };
         });
         
+    },
+
+    login: async (req, res) => {
+
+        let email = req.body.email;
+        let password = req.body.password
+
+        try {
+            var user = await User.findOne({email: email}).exec();
+            if (!user) {
+                return res.status(400).send({message: "User does not exist!"});
+            }
+            if (!Bcrypt.compareSync(password, user.password)) {
+                return res.status(400).send({message: "The password is invalid!"})
+            }
+            res.send({message: "The email and password combination is correct!"});
+        } catch (error) {
+            res.status(500).send(error);
+        }
+
     }
 }
