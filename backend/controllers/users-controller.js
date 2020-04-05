@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const User = require('../models/user-model');
 const Bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
 
 
@@ -27,60 +28,35 @@ module.exports = {
         let password = req.body.password;
         let confirmPassword = req.body.confirmPassword
 
+        User.findOne( {email: email} )
+            .then( user => { 
+                if ( !user ) {
+                    if ( password != confirmPassword ) {
+                        console.log("Passwords do not match!");
+                        return res.json( {message: "Passwords do not match!"} );
+                    } else {
+                        console.log("Passwords match!");
+                        password = Bcrypt.hashSync( password, 10 );
+                        const newUser = new User( {firstName, lastName, email, userName, password} );
+                        newUser.save()
+                            .then( () => res.json('Successfully added user!') )
+                            .catch( err => res.status(400).json('Error in SAVING USER: ' + err) );
+                    };
 
-        // User.findOne({email: email})
-        //     .then(user => {
-        //         if(!user) {
-        //             console.log("user does not exist")
-        //         } else {
-        //             console.log("An Account is already associated with this email!")
-
-        //         }
-        //     })
-        //     .catch(err => {
-        //         res.send('error: ' + err)
-        //     })
-
-        // User.findOne({userName: userName})
-        //     .then(user => {
-        //         if(!user) {
-        //             console.log("user does not exist")
-        //         } else {
-        //             console.log("That username is already in use!")
-        //         }
-        //     })
-        //     .catch(err => {
-        //         res.send('error: ' + err)
-        //     })
-
-        //PASSWORD VALIDATION
-        if (password != confirmPassword) {
-
-            console.log("Password's do not match!");
-            res.json("Password's do not match!")
-
-        } else {
-
-            console.log("Passwords match!")
-            password = Bcrypt.hashSync(req.body.password, 10);
-
-            const newUser = new User({firstName, lastName, email, userName, password});
-
-            newUser.save( (err) => {
-                if (err) {
-                    console.log('something went wrong in create');
-                    res.json(err)
                 } else {
-                        console.log('successfully added user!');
-                        res.json("User Successfully added!")
-                        return
+                    res.json( {error: "User already exists!"} );
                 };
+            })
+
+            .catch( err => {
+                console.log("Somthing went wrong in create!");
+                res.send('error: ' + err);
             });
-        }
+
     },
 
     login: async (req, res) => {
-
+        
         let email = req.body.email;
         let password = req.body.password
 
@@ -98,4 +74,31 @@ module.exports = {
         }
 
     }
+
+    // THE BELOW WILL IMPLEMENT JSONWEBTOKEN
+    // User.findOne({email: req.body.email})
+    //     .then(user => {
+    //         if(user) {
+    //             if(Bcrypt.compareSync(req.body.password, user.password)) {
+    //                 const payload = {
+    //                     _id: user._id,
+    //                     firstName: user.firstName,
+    //                     lastNmae: user.lastName,
+    //                     email: user.email,
+    //                     userName: user.userName
+    //                 }
+    //                 let token = jwt.sign(payload, "MySecretKey", {
+    //                     expiresIn: 1440
+    //                 })
+    //                 res.send(token)
+    //             } else {
+    //                 res.json({error: "User does not exist!"})
+    //             }
+    //         } else {
+    //             res.json({error: "User does not exist!"})
+    //         }
+    //     })
+    //     .catch(err => {
+    //         res.send('error: ' + err)
+    //     })
 }

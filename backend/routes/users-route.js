@@ -12,7 +12,7 @@ router.route('/register').post((req, res) => {
     users.create(req, res);
 });
 
-router.route('/login').get(async (req, res) => {
+router.route('/login').post(async (req, res) => {
     users.login(req, res);
 })
 
