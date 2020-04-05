@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const UsersRouter = require('./routes/users-route');
-app.use('/', UsersRouter);
+app.use('/user', UsersRouter);
 
 const port = 8000;
 app.listen(port, () => {

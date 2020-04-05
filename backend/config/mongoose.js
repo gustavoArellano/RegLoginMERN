@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-mongoose.connect('mongodb://localhost/reg-login', { useNewUrlParser: true, useCreateIndex: true });
-
-const connection = mongoose.connection; 
-connection.once('open', () => {
-    console.log("MongoDB databse connection established succcesfully");
-});
+mongoose
+    .connect('mongodb://localhost/reg-login', { useNewUrlParser: true, useCreateIndex: true })
+    .then(() => console.log("MongoDB connected!"))
+    .catch(err => console.log(err))
 
 const models_path = path.join(__dirname, '../models');
 
