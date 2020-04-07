@@ -55,4 +55,21 @@ form button {
   font-size: 12px;;
 }
 
+.user-list {
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.user-list {
+  width: 100%;
+  text-align: center;
+}
+
+.user-row .user-data {
+  margin: 20px;
+  padding: 30px;
+}
+
+
 
