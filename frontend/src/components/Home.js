@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const User = props => (
-    <tr className="user-row">
-        <td className="user-data">{ props.user.firstName }</td>
-        <td className="user-data">{ props.user.lastName }</td>
-        <td className="user-data">{ props.user.email }</td>
-        <td className="user-data">{ props.user.userName }</td>
-    </tr>
+    <div className="user-row">
+        <p className="user-data">
+            { props.user.firstName 
+            + " | " + 
+            props.user.lastName 
+            + " | " + 
+            props.user.email 
+            + " | " + 
+            props.user.userName } 
+        </p>
+
+    </div>
 )
 class Home extends Component {
     constructor(props) {
@@ -27,7 +33,7 @@ class Home extends Component {
 
     usersList() {
         return this.state.users.map(user => { 
-            return <User user={ user }/>
+            return <User user={ user } key={ user._id } />
         })
     }
 
