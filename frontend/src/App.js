@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import RegLogin from './components/RegLogin';
 import Home from './components/Home';
 
 class App extends Component {
@@ -17,14 +16,15 @@ class App extends Component {
 
         <div className="App">
 
-          <h1 className="app-title">Welcome to Login & Registration on MERN!</h1>
-
-          <Login />
-
-          <Register />    
           
-          <Router path="/" exact component = {App} />
-          <Route path="/Home" exact component = {Home} />
+
+            <Switch>
+
+              <Route path="/" exact component = {RegLogin} />
+
+              <Route path="/Home" component = {Home} />
+
+            </Switch>
 
         </div>
 

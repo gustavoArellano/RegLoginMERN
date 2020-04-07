@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Link } from 'react-router-dom';
+// import { BrowserRouter as Router, Route } from "react-router-dom";
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
+// import Home from './Home';
 
 class Register extends Component {
   constructor(props) {
@@ -13,8 +14,8 @@ class Register extends Component {
         userName: '',
         password: '',
         confirmPassword: ''
-
     }
+
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -74,9 +75,9 @@ class Register extends Component {
 
         console.log(user)
 
-        axios.post('http://localhost:8000/register', user)
+        axios.post('http://localhost:8000/user/register', user)
             .then (res => console.log(res.data))
-            .then (req => <Route path="/Home" component = {Home} />)
+            .then (req => window.location = '/Home')
 
         
     }
@@ -109,9 +110,8 @@ class Register extends Component {
                 <input type="password" required value={this.confirmPassword} onChange={this.onChangeConfirmPassword}/>
 
                 <button type="submit">Register</button>
-
             </form>
-
+            
         </div>
           
 

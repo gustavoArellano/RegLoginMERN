@@ -73,7 +73,7 @@ module.exports = {
             res.status(500).send(error);
         }
 
-    }
+    },
 
     // THE BELOW WILL IMPLEMENT JSONWEBTOKEN
     // User.findOne({email: req.body.email})
@@ -101,4 +101,10 @@ module.exports = {
     //     .catch(err => {
     //         res.send('error: ' + err)
     //     })
+
+    // profile: (res, req) => {
+    //     User.findOne({email: email})
+    //         .then(user => {if(!user) {res.json(user)}})
+    //         .catch((err) => {res.json(err)})
+    // }
 }
