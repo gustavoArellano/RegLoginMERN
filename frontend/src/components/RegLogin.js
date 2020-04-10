@@ -19,7 +19,7 @@ class RegLogin extends Component {
                 <Login />
 
                 <Register />  
-                
+
             </div>
         )
     }

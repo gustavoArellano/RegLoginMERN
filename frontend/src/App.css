@@ -1,11 +1,12 @@
 .App {
   width: 100%;
-  padding: 100px 0px;
+  padding: 0px;
   text-align: center;
 }
 
 .app-title {
   margin: 10px auto;
+  padding: 30px;
 }
 
 .login-container h4 {
@@ -68,6 +69,12 @@ form button {
 
 .user-row .user-data {
   padding: 20px;
+}
+
+.NavBar ul li {
+  list-style: none;
+  display: inline-block;
+  margin: 30px;
 }
 
 

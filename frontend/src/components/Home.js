@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import NavBar from './NavBar';
+
 
 const User = props => (
     <div className="user-row">
@@ -40,7 +42,11 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <h1>I am Home.</h1>
+
+                <NavBar />
+
+                <h1>I am Home, Displaying All Data.</h1>
+                <h4><u>[UserFirstName], you are logged in!</u></h4>
 
                 <h4>Users Signed up below: </h4>
 
