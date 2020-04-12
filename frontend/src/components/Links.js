@@ -6,7 +6,7 @@ import NavBar from './NavBar';
 const UserFirstLastName = props => (
     <div className="user-row">
         <p className="user-data">
-            <a href="#">{ props.user.firstName  + " " + props.user.lastName } </a>
+            <Link>{ props.user.firstName  + " " + props.user.lastName } </Link>
         </p>
 
     </div>
