@@ -14,7 +14,7 @@ class NavBar extends Component {
             <div className="NavBar">
 
                 <ul>
-                    <Link to="/Home"><li>Display All Data</li></Link>
+                    <Link to="/Home"><li>Display All User Data</li></Link>
                     <Link to="/Links"><li>Display By Links</li></Link>
                     <Link><li>Logout</li></Link>
                 </ul>
