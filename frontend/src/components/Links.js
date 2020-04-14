@@ -43,7 +43,7 @@ class Links extends Component {
 
                 <NavBar />
                 
-                <h1><u>Display By Links<u/></h1>
+                <h1><u>Display By Links</u></h1>
 
                 <h4>Click on a user to show data!</h4>
 
